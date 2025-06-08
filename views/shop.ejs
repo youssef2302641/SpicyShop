@@ -1,0 +1,140 @@
+<!-- Shop Content -->
+<main>
+    <section class="section product">
+        <div class="container">
+            <h2 class="h2 section-title">Shop Our Collection</h2>
+
+            <ul class="filter-list">
+                <li><button class="filter-btn active">All</button></li>
+                <li><button class="filter-btn">Drop 1</button></li>
+                <li><button class="filter-btn">Drop 2</button></li>
+                <li><button class="filter-btn">Drop 3</button></li>
+            </ul>
+
+            <ul class="product-list" id="productList">
+                <% products.forEach(product => { %>
+                    <li class="product-item" 
+                        data-id="<%= product._id %>" 
+                        data-name="<%= product.name %>" 
+                        data-price="<%= product.price %>" 
+                        data-brand="<%= product.brand %>" 
+                        data-category="<%= product.category %>">
+
+                        <div class="product-card">
+                            <figure class="card-banner">
+                                <img src="<%= product.image %>" alt="<%= product.name %>" class="image-contain">
+                                <% if (product.isNew) { %>
+                                    <div class="card-badge">New</div>
+                                <% } %>
+
+                                <ul class="card-action-list">
+                                    <li><button class="card-action-btn" data-cart aria-label="Add to cart"><ion-icon name="cart-outline"></ion-icon></button></li>
+                                </ul>
+                            </figure>
+                            <div class="card-content">
+                                <div class="card-cat"><%= product.category %></div>
+                                <h3 class="h3 card-title"><a href="/shop/product/<%= product._id %>"><%= product.name %></a></h3>
+                                <data class="card-price" value="<%= product.price %>">$<%= product.price.toFixed(2) %></data>
+                            </div>
+                        </div>
+                    </li>
+                <% }); %>
+            </ul>
+        </div>
+    </section>
+</main>
+
+<!-- Pagination -->
+<div class="pagination">
+    <% if (currentPage > 1) { %>
+        <a href="/shop?page=<%= currentPage - 1 %>" class="page-link">Previous</a>
+    <% } %>
+    <span class="current-page">Page <%= currentPage %> of <%= totalPages %></span>
+    <% if (currentPage < totalPages) { %>
+        <a href="/shop?page=<%= currentPage + 1 %>" class="page-link">Next</a>
+    <% } %>
+</div>
+
+<!-- Size Selection Modal -->
+<div class="modal hidden" id="sizeModal">
+    <div class="modal-content">
+        <span class="close-modal" id="closeModal">&times;</span>
+        <img src="" alt="Product" class="modal-img" id="modalImg">
+        <h3 id="modalName"></h3>
+        <div class="size-options">
+            <button class="size-btn">Small</button>
+            <button class="size-btn">Medium</button>
+            <button class="size-btn">Large</button>
+            <button class="size-btn">XLarge</button>
+        </div>
+        <button class="btn btn-primary" id="confirmAdd">Add to Cart</button>
+    </div>
+</div>
+
+<!-- Ionicons -->
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+
+<script>
+    // Navbar functionality
+    const header = document.querySelector("[data-header]");
+    const navOpenBtn = document.querySelector("[data-nav-open-btn]");
+    const navCloseBtn = document.querySelector("[data-nav-close-btn]");
+    const overlay = document.querySelector("[data-overlay]");
+
+    const toggleNavbar = function () {
+        header.classList.toggle("active");
+        overlay.classList.toggle("active");
+    }
+
+    navOpenBtn.addEventListener("click", toggleNavbar);
+    navCloseBtn.addEventListener("click", toggleNavbar);
+    overlay.addEventListener("click", toggleNavbar);
+
+    // Add active class to current page link
+    const currentPage = window.location.pathname;
+    const navLinks = document.querySelectorAll('.navbar-link');
+    navLinks.forEach(link => {
+        if (link.getAttribute('href') === currentPage) {
+            link.classList.add('active');
+        }
+    });
+
+    // Add to cart functionality
+    document.querySelectorAll('[data-cart]').forEach(button => {
+        button.addEventListener('click', async function(e) {
+            e.preventDefault();
+            const productItem = this.closest('.product-item');
+            const productId = productItem.dataset.id;
+            const name = productItem.dataset.name;
+            const price = parseFloat(productItem.dataset.price);
+
+            try {
+                const response = await fetch('/cart/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        productId,
+                        name,
+                        price,
+                        quantity: 1
+                    })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    // Show success message
+                    alert('Product added to cart!');
+                    // Optionally redirect to cart page
+                    // window.location.href = '/cart';
+                }
+            } catch (error) {
+                console.error('Error adding to cart:', error);
+                alert('Failed to add product to cart. Please try again.');
+            }
+        });
+    });
+</script>

@@ -1,0 +1,191 @@
+<!-- Register Header -->
+<section class="auth-header">
+    <h1>Create Account</h1>
+    <p>Join us and start shopping today</p>
+</section>
+
+<!-- Register Form -->
+<main>
+    <section class="section auth">
+        <div class="container">
+            <div class="auth-content">
+                <h1>Register</h1>
+                
+                <% if (error) { %>
+                    <div class="error-message">
+                        <%= error %>
+                    </div>
+                <% } %>
+
+                <form action="/auth/register" method="POST" class="auth-form">
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" id="firstName" name="firstName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" id="lastName" name="lastName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Register</button>
+                </form>
+
+                <div class="auth-links">
+                    <p>Already have an account? <a href="/auth/login">Login</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Social Register -->
+<section class="social-login">
+    <div class="divider">
+        <span>or register with</span>
+    </div>
+
+    <div class="social-buttons">
+        <button class="social-button google">
+            <img src="/images/google-icon.svg" alt="Google">
+            Google
+        </button>
+        <button class="social-button facebook">
+            <img src="/images/facebook-icon.svg" alt="Facebook">
+            Facebook
+        </button>
+    </div>
+</section>
+
+<style>
+    .auth {
+        padding: 4rem 0;
+    }
+
+    .auth-content {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 2rem;
+        background: #f8f8f8;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .auth h1 {
+        text-align: center;
+        margin-bottom: 2rem;
+        color: #333;
+    }
+
+    .auth-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    label {
+        font-weight: 500;
+        color: #333;
+    }
+
+    input {
+        padding: 0.75rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 1rem;
+    }
+
+    input:focus {
+        outline: none;
+        border-color: #ff4444;
+    }
+
+    .btn {
+        padding: 0.75rem;
+        border: none;
+        border-radius: 4px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    .btn-primary {
+        background: #ff4444;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background: #ff2222;
+    }
+
+    .auth-links {
+        margin-top: 1.5rem;
+        text-align: center;
+    }
+
+    .auth-links a {
+        color: #ff4444;
+        text-decoration: none;
+    }
+
+    .auth-links a:hover {
+        text-decoration: underline;
+    }
+
+    .error-message {
+        background: #fff5f5;
+        color: #ff4444;
+        padding: 0.75rem;
+        border-radius: 4px;
+        margin-bottom: 1rem;
+        border: 1px solid #ffdddd;
+    }
+</style>
+
+<script>
+    // Password validation
+    const password = document.getElementById('password');
+    const confirmPassword = document.getElementById('confirmPassword');
+    const form = document.querySelector('form');
+
+    function validatePassword() {
+        if (password.value !== confirmPassword.value) {
+            confirmPassword.setCustomValidity("Passwords don't match");
+        } else {
+            confirmPassword.setCustomValidity('');
+        }
+    }
+
+    password.addEventListener('change', validatePassword);
+    confirmPassword.addEventListener('keyup', validatePassword);
+
+    // Form submission
+    form.addEventListener('submit', function(e) {
+        if (!form.checkValidity()) {
+            e.preventDefault();
+            return;
+        }
+
+        if (password.value !== confirmPassword.value) {
+            e.preventDefault();
+            alert("Passwords don't match");
+        }
+    });
+</script> 

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - Spicy Shop</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/images/download.jpeg" type="image/svg+xml">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Preload Banner -->
+    <link rel="preload" href="/images/9816345.jpg" as="image">
+
+    <!-- Ionicons -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+<body id="top">
+    <!-- Header -->
+    <header class="header" data-header>
+        <div class="container">
+            <div class="overlay" data-overlay></div>
+
+            <a href="/" class="logo">
+                <img src="/images/hot-chilli-spicy-logo-lettering-typography-design-illustration-vector.jpg" width="160" height="50" alt="Spicy logo">
+            </a>
+
+            <!-- Cart Button in Header -->
+            <div class="header-cart">
+                <a href="/cart" class="cart-btn" id="cart-button">
+                    <ion-icon name="bag-outline"></ion-icon>
+                    <data class="cart-text" id="cart-total-display">Cart: <strong>$0.00</strong></data>
+                    <data class="cart-badge" id="cart-count" value="0" aria-hidden="true">0</data>
+                </a>
+            </div>
+
+            <!-- Login/Logout Button in Header -->
+            <div class="header-login">
+                <% if (user) { %>
+                    <a href="/auth/logout" class="login-btn">
+                        <ion-icon name="log-out-outline"></ion-icon>
+                        Sign Out
+                    </a>
+                <% } else { %>
+                    <a href="/auth/login" class="login-btn">
+                        <ion-icon name="person-outline"></ion-icon>
+                        Login
+                    </a>
+                <% } %>
+            </div>
+
+            <button class="nav-open-btn" data-nav-open-btn aria-label="Open Menu">
+                <ion-icon name="menu-outline"></ion-icon>
+            </button>
+
+            <nav class="navbar" data-navbar>
+                <button class="nav-close-btn" data-nav-close-btn aria-label="Close Menu">
+                    <ion-icon name="close-outline"></ion-icon>
+                </button>
+
+                <a href="/" class="logo">
+                    <img src="/images/download.jpeg" width="190" height="50" alt="Spicy logo">
+                </a>
+
+                <ul class="navbar-list">
+                    <li class="navbar-item">
+                        <a href="/" class="navbar-link">Home</a>
+                    </li>
+                    <li class="navbar-item">
+                        <a href="/about" class="navbar-link">About</a>
+                    </li>
+                    <li class="navbar-item">
+                        <a href="/shop" class="navbar-link">Shop</a>
+                    </li>
+                    <li class="navbar-item">
+                        <a href="/contact" class="navbar-link">Contact</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <%- body %>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-top section">
+            <div class="container">
+                <div class="footer-brand">
+                    <a href="#" class="logo">
+                        <img src="/images/hot-chilli-spicy-logo-lettering-typography-design-illustration-vector.jpg" width="160" height="50" alt="Spicy logo">
+                    </a>
+                    <ul class="social-list">
+                        <li>
+                            <a href="#" class="social-link">
+                                <ion-icon name="logo-facebook"></ion-icon>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="social-link">
+                                <ion-icon name="logo-twitter"></ion-icon>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="social-link">
+                                <ion-icon name="logo-pinterest"></ion-icon>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="social-link">
+                                <ion-icon name="logo-linkedin"></ion-icon>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        
+            
+        </footer>
+        <div class="footer-bottom">
+            <div class="container">
+      
+              <p class="copyright">
+               <a href="#" class="copyright-link">CopyRight @ 2025 SpicyShop</a>. All Rights Reserved.
+              </p>
+      
+            </div>
+          </div>
+
+    <!-- Go to Top Button -->
+    <a href="#top" class="go-top-btn" data-go-top>
+        <ion-icon name="arrow-up-outline"></ion-icon>
+    </a>
+
+    <!-- Scripts -->
+    <script src="/js/script.js"></script>
+    
+    <style>
+        .header-login {
+            position: absolute;
+            right: 140px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+        }
+
+        .header-cart {
+            position: absolute;
+            right: 270px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+        }
+
+        .cart-btn {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 8px 16px;
+            background: #8B0000;
+            color: var(--white);
+            border-radius: var(--radius-4);
+            font-weight: var(--fw-600);
+            transition: var(--transition-1);
+        }
+
+        .cart-btn:hover {
+            background: #660000;
+        }
+
+        .cart-btn ion-icon {
+            font-size: 20px;
+        }
+
+        .cart-text {
+            font-size: 14px;
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--white);
+            color: #8B0000;
+            font-size: 12px;
+            font-weight: var(--fw-600);
+            min-width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-btn {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 8px 16px;
+            background: #8B0000;
+            color: var(--white);
+            border-radius: var(--radius-4);
+            font-weight: var(--fw-600);
+            transition: var(--transition-1);
+        }
+
+        .login-btn:hover {
+            background: #660000;
+        }
+
+        .login-btn ion-icon {
+            font-size: 20px;
+        }
+
+        @media (max-width: 991px) {
+            .header-login,
+            .header-cart {
+                display: none;
+            }
+        }
+
+        .navbar .logo {
+            margin-right: 120px;
+        }
+    </style>
+</body>
+</html> 

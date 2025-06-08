@@ -1,0 +1,58 @@
+<!-- Navigation -->
+<nav class="navbar">
+    <div class="container">
+        <a href="/" class="navbar-brand">Home</a>
+        
+        <div class="navbar-menu">
+            <a href="/shop" class="navbar-item">Shop</a>
+            <a href="/cart" class="navbar-item">Cart</a>
+            <% if (user) { %>
+                <a href="/account" class="navbar-item">Account</a>
+                <a href="/auth/logout" class="navbar-item">Logout</a>
+            <% } else { %>
+                <a href="/auth/login" class="navbar-item">Login</a>
+                <a href="/auth/register" class="navbar-item">Register</a>
+            <% } %>
+        </div>
+    </div>
+</nav>
+
+<style>
+    .navbar {
+        background: #fff;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        padding: 1rem 0;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .navbar-brand {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #ff4444;
+        text-decoration: none;
+    }
+
+    .navbar-menu {
+        display: flex;
+        gap: 1.5rem;
+    }
+
+    .navbar-item {
+        color: #333;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.2s;
+    }
+
+    .navbar-item:hover {
+        color: #ff4444;
+    }
+</style> 
