@@ -1,0 +1,347 @@
+<!-- Shop Content -->
+<main>
+    <section class="section product">
+        <div class="container">
+            <h2 class="h2 section-title">Shop Our Collection</h2>
+
+            <ul class="filter-list">
+                <li><button class="filter-btn active">All</button></li>
+                <li><button class="filter-btn">Drop 1</button></li>
+                <li><button class="filter-btn">Drop 2</button></li>
+                <li><button class="filter-btn">Drop 3</button></li>
+            </ul>
+
+            <ul class="product-list" id="productList">
+                <% products.forEach(product => { %>
+                    <li class="product-item" 
+                        data-id="<%= product._id %>" 
+                        data-name="<%= product.name %>" 
+                        data-price="<%= product.price %>" 
+                        data-brand="<%= product.brand %>" 
+                        data-category="<%= product.category %>">
+
+                        <div class="product-card">
+                            <figure class="card-banner">
+                                <img src="<%= product.image %>" alt="<%= product.name %>" class="image-contain">
+                                <% if (product.isNew) { %>
+                                    <div class="card-badge">New</div>
+                                <% } %>
+
+                                <ul class="card-action-list">
+                                    <li><button class="card-action-btn" data-cart aria-label="Add to cart"><ion-icon name="cart-outline"></ion-icon></button></li>
+                                </ul>
+                            </figure>
+                            <div class="card-content">
+                                <div class="card-cat"><%= product.category %></div>
+                                <h3 class="h3 card-title">
+                                    <a href="#" class="product-link" 
+                                       data-id="<%= product._id %>" 
+                                       data-name="<%= product.name %>" 
+                                       data-price="<%= product.price %>" 
+                                       data-brand="<%= product.brand %>" 
+                                       data-category="<%= product.category %>"
+                                       onclick="showSizeModal(this)">
+                                        <%= product.name %>
+                                    </a>
+                                </h3>
+                                <data class="card-price" value="<%= product.price %>">$<%= product.price.toFixed(2) %></data>
+                            </div>
+                        </div>
+                    </li>
+                <% }); %>
+            </ul>
+        </div>
+    </section>
+</main>
+
+<!-- Pagination -->
+<div class="pagination">
+    <% if (currentPage > 1) { %>
+        <a href="/shop?page=<%= currentPage - 1 %>" class="page-link">Previous</a>
+    <% } %>
+    <span class="current-page">Page <%= currentPage %> of <%= totalPages %></span>
+    <% if (currentPage < totalPages) { %>
+        <a href="/shop?page=<%= currentPage + 1 %>" class="page-link">Next</a>
+    <% } %>
+</div>
+
+<!-- Size Selection Modal -->
+<div class="modal hidden" id="sizeModal">
+    <div class="modal-content">
+        <span class="close-modal" id="closeModal">&times;</span>
+        <img src="" alt="Product" class="modal-img" id="modalImg">
+        <h3 id="modalName"></h3>
+        <div class="size-options">
+            <button class="size-btn">Small</button>
+            <button class="size-btn">Medium</button>
+            <button class="size-btn">Large</button>
+            <button class="size-btn">XLarge</button>
+        </div>
+        <button class="btn btn-primary" id="confirmAdd">Add to Cart</button>
+    </div>
+</div>
+
+<!-- Ionicons -->
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+
+<script>
+    // Navbar functionality
+    const header = document.querySelector("[data-header]");
+    const navOpenBtn = document.querySelector("[data-nav-open-btn]");
+    const navCloseBtn = document.querySelector("[data-nav-close-btn]");
+    const overlay = document.querySelector("[data-overlay]");
+
+    const toggleNavbar = function () {
+        header.classList.toggle("active");
+        overlay.classList.toggle("active");
+    }
+
+    navOpenBtn.addEventListener("click", toggleNavbar);
+    navCloseBtn.addEventListener("click", toggleNavbar);
+    overlay.addEventListener("click", toggleNavbar);
+
+    // Add active class to current page link
+    const currentPage = window.location.pathname;
+    const navLinks = document.querySelectorAll('.navbar-link');
+    navLinks.forEach(link => {
+        if (link.getAttribute('href') === currentPage) {
+            link.classList.add('active');
+        }
+    });
+
+    // Size Modal functionality
+    const sizeModal = document.getElementById('sizeModal');
+    const closeModal = document.getElementById('closeModal');
+    const modalImg = document.getElementById('modalImg');
+    const modalName = document.getElementById('modalName');
+    const confirmAdd = document.getElementById('confirmAdd');
+    let selectedProduct = null;
+    let selectedSize = null;
+
+    // Close modal when clicking the close button or outside the modal
+    closeModal.addEventListener('click', () => {
+        sizeModal.classList.add('hidden');
+    });
+
+    window.addEventListener('click', (e) => {
+        if (e.target === sizeModal) {
+            sizeModal.classList.add('hidden');
+        }
+    });
+
+    // Size selection
+    document.querySelectorAll('.size-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
+            this.classList.add('selected');
+            selectedSize = this.textContent;
+            console.log('Size selected:', selectedSize);
+        });
+    });
+
+    // Add to cart functionality
+    document.querySelectorAll('[data-cart]').forEach(button => {
+        button.addEventListener('click', async function(e) {
+            e.preventDefault();
+            console.log('Add to cart button clicked');
+            
+            const productItem = this.closest('.product-item');
+            if (!productItem) {
+                console.error('Product item not found');
+                return;
+            }
+
+            const productId = productItem.dataset.id;
+            const name = productItem.dataset.name;
+            const price = productItem.dataset.price;
+            const image = productItem.querySelector('.image-contain')?.src;
+
+            if (!productId || !name || !price) {
+                console.error('Missing product data:', { productId, name, price });
+                return;
+            }
+
+            selectedProduct = {
+                id: productId,
+                name: name,
+                price: parseFloat(price),
+                image: image
+            };
+            console.log('Selected product:', selectedProduct);
+
+            // Show size selection modal
+            if (modalImg && modalName) {
+                modalImg.src = selectedProduct.image;
+                modalName.textContent = selectedProduct.name;
+                sizeModal.classList.remove('hidden');
+            } else {
+                console.error('Modal elements not found');
+            }
+        });
+    });
+
+    // Confirm add to cart
+    if (confirmAdd) {
+        confirmAdd.addEventListener('click', async function() {
+            console.log('Confirm add clicked');
+            console.log('Selected size:', selectedSize);
+            console.log('Selected product:', selectedProduct);
+
+            if (!selectedSize) {
+                alert('Please select a size');
+                return;
+            }
+
+            if (!selectedProduct) {
+                alert('No product selected');
+                return;
+            }
+
+            try {
+                const requestBody = {
+                    productId: selectedProduct.id,
+                    name: selectedProduct.name,
+                    price: selectedProduct.price,
+                    quantity: 1,
+                    size: selectedSize
+                };
+                console.log('Sending request with body:', requestBody);
+
+                const response = await fetch('/cart/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+
+                console.log('Response status:', response.status);
+                const data = await response.json();
+                console.log('Response data:', data);
+
+                if (data.success) {
+                    alert('Product added to cart!');
+                    sizeModal.classList.add('hidden');
+                    selectedSize = null;
+                    document.querySelectorAll('.size-btn').forEach(btn => btn.classList.remove('selected'));
+                } else {
+                    alert(data.error || 'Failed to add product to cart');
+                }
+            } catch (error) {
+                console.error('Error adding to cart:', error);
+                alert('Failed to add product to cart. Please try again.');
+            }
+        });
+    } else {
+        console.error('Confirm add button not found');
+    }
+
+    function showSizeModal(element) {
+        const productId = element.dataset.id;
+        const productName = element.dataset.name;
+        const productPrice = element.dataset.price;
+        const productBrand = element.dataset.brand;
+        const productCategory = element.dataset.category;
+
+        // Update modal content
+        document.getElementById('modalName').textContent = productName;
+        document.getElementById('modalPrice').textContent = `$${productPrice}`;
+        document.getElementById('modalBrand').textContent = productBrand;
+        document.getElementById('modalCategory').textContent = productCategory;
+
+        // Reset size selection
+        document.querySelectorAll('.size-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById('confirmAdd').disabled = true;
+
+        // Show modal
+        document.getElementById('sizeModal').classList.remove('hidden');
+
+        // Store product data for cart
+        window.selectedProduct = {
+            id: productId,
+            name: productName,
+            price: productPrice,
+            brand: productBrand,
+            category: productCategory
+        };
+    }
+</script>
+
+<style>
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+    }
+
+    .modal.hidden {
+        display: none;
+    }
+
+    .modal-content {
+        position: relative;
+        background-color: #fff;
+        margin: 15% auto;
+        padding: 20px;
+        width: 80%;
+        max-width: 500px;
+        border-radius: 8px;
+        text-align: center;
+    }
+
+    .close-modal {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    .modal-img {
+        max-width: 200px;
+        margin-bottom: 20px;
+    }
+
+    .size-options {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin: 20px 0;
+    }
+
+    .size-btn {
+        padding: 10px 20px;
+        border: 1px solid #ddd;
+        background: #fff;
+        cursor: pointer;
+        border-radius: 4px;
+    }
+
+    .size-btn.selected {
+        background: #ff4d4d;
+        color: #fff;
+        border-color: #ff4d4d;
+    }
+
+    #confirmAdd {
+        width: 100%;
+        padding: 12px;
+        background: #ff4d4d;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    #confirmAdd:hover {
+        background: #ff3333;
+    }
+</style>

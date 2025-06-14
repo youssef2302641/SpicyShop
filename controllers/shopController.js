@@ -5,7 +5,7 @@ const shopController = {
     getHome: async (req, res) => {
         try {
             const featuredProducts = await Product.find({ featured: true }).limit(4);
-            res.render('index', { 
+            res.render('pages/index', { 
                 title: 'Spicy - Home',
                 featuredProducts 
             });
@@ -20,7 +20,7 @@ const shopController = {
     getShop: async (req, res) => {
         try {
             const products = await Product.find();
-            res.render('shop', { 
+            res.render('pages/shop', { 
                 title: 'Spicy - Shop',
                 products 
             });
@@ -33,14 +33,14 @@ const shopController = {
 
     // About page
     getAbout: (req, res) => {
-        res.render('about', { 
+        res.render('pages/about', { 
             title: 'Spicy - About Us' 
         });
     },
 
     // Contact page
     getContact: (req, res) => {
-        res.render('contact', { 
+        res.render('pages/contact', { 
             title: 'Spicy - Contact Us' 
         });
     },
@@ -48,7 +48,7 @@ const shopController = {
     // Cart page
     getCart: (req, res) => {
         const cart = req.session.cart || [];
-        res.render('cart', { 
+        res.render('pages/cart', { 
             title: 'Spicy - Shopping Cart',
             cart 
         });

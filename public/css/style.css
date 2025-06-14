@@ -33,7 +33,8 @@
     /** * spacing */ --section-padding: 60px;
   }
   
-  /*-----------------------------------*\ * #RESET \*-----------------------------------*/ *, *::before, *::after {
+  /*-----------------------------------*\ * #RESET \*-----------------------------------*/
+  *, *::before, *::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -76,7 +77,7 @@
     scroll-behavior: smooth;
   }
   
-  body {
+  body:not(.admin-dashboard) {
     background: var(--white);
     font-size: 1.6rem;
     padding-block-start: 90px;
@@ -129,25 +130,32 @@
     text-transform: uppercase;
   }
   
-  .btn {
+  .btn:not(.admin-dashboard .btn) {
     background: var(--background, var(--bittersweet));
     color: var(--color, var(--white));
     font-size: var(--fs-5);
     display: inline-flex;
-    /* Changed from flex to inline-flex */ align-items: center;
+    align-items: center;
     justify-content: center;
-    /* Center contents */ gap: 5px;
+    gap: 5px;
     padding: 14px 25px;
     border: 1px solid var(--border-color, var(--bittersweet));
     text-align: center;
     text-decoration: none;
     width: fit-content;
-    /* Prevents full-width stretching */
+    transition: var(--transition-1);
+  }
+  
+  .btn-primary {
+    --background: var(--bittersweet);
+    --border-color: var(--bittersweet);
+    --color: var(--white);
   }
   
   .btn-primary:is(:hover, :focus) {
     --background: var(--salmon);
     --border-color: var(--salmon);
+    --color: var(--white);
   }
   
   .btn-secondary {
@@ -158,6 +166,7 @@
   
   .btn-secondary:is(:hover, :focus) {
     --background: hsla(0, 0%, 0%, 0.1);
+    --color: var(--black);
   }
   
   .has-scrollbar {
@@ -246,21 +255,19 @@
   }
   
   .card-action-btn {
-    background: var(--white);
-    color: var(--rich-black-fogra-29);
-    font-size: 18px;
-    padding: 10px;
+    background-color: #000;
+    color: #fff;
+    padding: 8px;
     border-radius: 50%;
-    transition: var(--transition-1);
+    transition: background-color 0.3s ease;
+  }
+  
+  .card-action-btn:hover {
+    background-color: #333;
   }
   
   .card-action-btn ion-icon {
     --ionicon-stroke-width: 30px;
-  }
-  
-  .card-action-btn:is(:hover, :focus) {
-    background: var(--bittersweet);
-    color: var(--white);
   }
   
   .card-action-tooltip {
@@ -347,7 +354,8 @@
     border-color: transparent;
   }
   
-  /*-----------------------------------*\ * #HEADER \*-----------------------------------*/ .header {
+  /*-----------------------------------*\ * #HEADER \*-----------------------------------*/
+  .header {
     position: fixed;
     top: 0;
     left: 0;
@@ -356,6 +364,7 @@
     padding-block: 20px;
     z-index: 4;
     transition: var(--transition-1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   }
   
   .header.active {
@@ -371,6 +380,9 @@
     margin: 0 auto;
     padding: 0 15px;
   }
+  /* =============================== */
+/* 📌 Root Navbar Styles */
+/* =============================== */
   
   .nav-open-btn {
     font-size: 35px;
@@ -395,8 +407,7 @@
     width: 100%;
     max-width: 300px;
     height: 100vh;
-    padding: 30px;
-    padding-block-end: 40px;
+  padding: 30px 30px 40px;
     transform: translateX(100%);
     transition: transform 0.3s ease;
     z-index: 2;
@@ -404,6 +415,10 @@
     display: flex;
     flex-direction: column;
     box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+.navbar {
+  position: static;
   }
   
   .navbar.active {
@@ -424,65 +439,63 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   }
   
-  .nav-close-btn ion-icon {
-    --ionicon-stroke-width: 70px;
-  }
-  
   .nav-close-btn:is(:hover, :focus) {
     background: var(--bittersweet);
     color: var(--white);
   }
-  
-  .navbar .logo {
-    margin-block-end: 30px;
-    text-align: center;
-    padding-top: 20px;
-    width: 100%;
+
+.nav-close-btn ion-icon {
+  --ionicon-stroke-width: 70px;
   }
   
-  .navbar .logo img {
-    max-width: 160px;
+  .navbar .logo {
+    display: flex;
+  width: 100%;
+  margin: 0 auto 30px;
+  padding-top: 20px;
+  }
+  
+
+
+
+.navbar-list,
+.nav-action-list {
     width: 100%;
-    height: auto;
-    margin: 0 auto;
-    object-fit: contain;
+  text-align: center;
   }
   
   .navbar-list {
     margin-block: auto;
-    text-align: center;
-    width: 100%;
   }
   
   .navbar-item {
     padding-block: 5px;
-    width: 100%;
   }
   
-  .nav-action-list {
-    padding-top: 20px;
-    border-top: 1px solid var(--cultured);
-    text-align: center;
-    width: 100%;
+.navbar-item:not(:last-child) {
+  border-block-end: 1px solid var(--cultured);
   }
   
-  .navbar-link {
+.navbar-link,
+.nav-action-btn {
     color: var(--rich-black-fogra-29);
-    font-size: var(--fs-7);
     font-weight: var(--fw-600);
     text-transform: uppercase;
     transition: var(--transition-1);
     display: block;
     padding: 10px 0;
     width: 100%;
+  font-size: var(--fs-7);
   }
   
-  .navbar-link:is(:hover, :focus) {
+.navbar-link:is(:hover, :focus),
+.nav-action-btn:is(:hover, :focus) {
     color: var(--bittersweet);
   }
   
-  .navbar-item:not(:last-child) {
-    border-block-end: 1px solid var(--cultured);
+.nav-action-list {
+  padding-top: 20px;
+  border-top: 1px solid var(--cultured);
   }
   
   .nav-action-list > li:first-child {
@@ -490,21 +503,10 @@
   }
   
   .nav-action-btn {
-    color: var(--rich-black-fogra-29);
-    font-size: var(--fs-7);
-    font-weight: var(--fw-600);
-    text-transform: uppercase;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 15px;
-    transition: var(--transition-1);
-    padding: 10px 0;
-    width: 100%;
-  }
-  
-  .nav-action-btn:is(:hover, :focus) {
-    color: var(--bittersweet);
   }
   
   .nav-action-btn ion-icon {
@@ -553,97 +555,82 @@
     pointer-events: all;
   }
   
-  /* Responsive Styles for Navbar Content */
-  @media (min-width: 576px) {
-    .navbar {
-      max-width: 350px;
-    }
+/* =============================== */
+/* 📱 Media Queries */
+/* =============================== */
+
     
     .navbar .logo img {
-      max-width: 180px;
-    }
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+  
+}
+
     
     .navbar-link,
     .nav-action-btn {
       font-size: var(--fs-6);
     }
-  }
-  
-  @media (min-width: 768px) {
-    .navbar {
-      max-width: 400px;
-    }
-    
-    .navbar .logo img {
-      max-width: 200px;
-    }
+
     
     .navbar-link,
     .nav-action-btn {
       font-size: var(--fs-5);
       padding: 15px 0;
     }
+
     
     .nav-action-btn ion-icon {
       font-size: 24px;
     }
-  }
-  
-  @media (min-width: 992px) {
-    .nav-close-btn,
-    .nav-open-btn,
-    .overlay {
-      display: none;
-    }
+
+
+
   
     .navbar {
-      all: unset;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-      margin-inline: auto;
-      width: 100%;
-      max-width: none;
-      padding: 0;
       position: static;
+      width: auto;
+      max-width: none;
       height: auto;
-      box-shadow: none;
+      padding: 0;
       transform: none;
-      background: none;
+      box-shadow: none;
+      overflow: visible;
+      display: block;
     }
   
     .navbar .logo {
-      display: block;
-      margin: 0;
-      padding: 0;
-    }
+      display: flex;
+      margin: 0 auto 30px;
   
-    .navbar .logo img {
-      max-width: 120px;
     }
+
+    
+    
+  
   
     .navbar-list {
       display: flex;
+      align-items: center;
       gap: 30px;
       margin: 0;
-      text-align: left;
     }
   
     .navbar-item {
       padding: 0;
-    }
-  
-    .navbar-item:not(:last-child) {
-      border: none;
+      border: none !important;
     }
   
     .nav-action-list {
       display: flex;
-      gap: 20px;
+      align-items: center;
+      gap: 30px;
       padding: 0;
       border: none;
-      margin-left: 30px;
     }
   
     .nav-action-list > li:first-child {
@@ -651,9 +638,9 @@
     }
   
     .nav-action-btn {
-      margin-inline-end: 10px;
-    }
+      padding: 0;
   }
+  
   
   @media (min-width: 1200px) {
     .navbar-list {
@@ -664,6 +651,7 @@
       gap: 30px;
     }
   }
+  
   
   /*-----------------------------------*\ * #PRODUCTS \*-----------------------------------*/ .product .section-title {
     background-size: cover;
@@ -760,52 +748,66 @@
   }
   
   /*-----------------------------------*\ * #SERVICE \*-----------------------------------*/ .service-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 30px;
-    padding-inline: 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    padding: 2rem 0;
   }
   
   .service-item {
-    width: 220px;
+    text-align: center;
   }
   
   .service-card {
+    padding: 2.5rem 2rem;
+    background: var(--white);
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 15px;
   }
   
-  .service-card .card-icon {
-    background: var(--bittersweet);
-    min-width: 55px;
-    height: 55px;
-    border-radius: 50%;
-    display: grid;
-    place-items: center;
+  .service-card:hover {
+    transform: translateY(-5px);
   }
   
-  .service-card .card-icon img {
-    filter: brightness(0) invert(1);
-    width: 60%;
-    height: auto;
+  .card-icon {
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   
-  .service-card .card-title {
-    font-size: var(--fs-6);
-    margin-bottom: 8px;
-  }
-  
-  .service-card .card-text {
-    color: var(--onyx);
-    font-family: var(--ff-roboto);
-    font-size: var(--fs-7);
-  }
-  
-  .service-card .card-text span {
-    display: inline-block;
+  .service-icon {
+    font-size: 4rem;
     color: var(--bittersweet);
+    transition: transform 0.3s ease;
+  }
+  
+  .service-card:hover .service-icon {
+    transform: scale(1.1);
+  }
+  
+  .service-content {
+    text-align: center;
+  }
+
+  .card-title {
+    margin-bottom: 0.5rem;
+    color: var(--rich-black-fogra-29);
+    font-size: 1.2rem;
+  }
+  
+  .card-text {
+    color: var(--onyx);
+    font-size: 1rem;
+  }
+  
+  .card-text span {
+    color: var(--bittersweet);
+    font-weight: 600;
   }
   
   /*-----------------------------------*\ * #INSTA POST \*-----------------------------------*/ .insta-post-list {
@@ -1285,17 +1287,7 @@
     --fs-6: 2rem;
   }
   
-  /** * INSTA POST */ .insta-post {
-    padding-block-end: 0;
-  }
-  
-  .insta-post-list .insta-post-item {
-    min-width: 12.5%;
-  }
-  
-  .insta-post-list {
-    padding-bottom: 0;
-  }
+ 
   
   /** * FOOTER */ .footer-link-box {
     grid-template-columns: 1.5fr 1fr 1fr 1.5fr;
@@ -1481,41 +1473,6 @@
     .team-grid {
       grid-template-columns: 1fr;
     }
-  }
-  
-  /* CONTACT FORM */
-  .contact-form {
-    max-width: 600px;
-    margin-inline: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  .contact-form .form-group {
-    width: 100%;
-  }
-  
-  .contact-form input,
-  .contact-form textarea {
-    width: 100%;
-    padding: 14px 18px;
-    font-size: 1.6rem;
-    border: 1px solid var(--gainsboro);
-    border-radius: 6px;
-    font-family: var(--ff-roboto);
-    color: var(--rich-black-fogra-29);
-    background-color: var(--white);
-  }
-  
-  .contact-form input:focus,
-  .contact-form textarea:focus {
-    border-color: var(--bittersweet);
-    outline: none;
-  }
-  
-  .contact-form textarea {
-    resize: vertical;
   }
 
   /* Size Selection Modal Styles */
@@ -1811,7 +1768,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    background: var(--rich-black-fogra-29);
+    background: var(--white);
     z-index: 1000;
     padding: 15px 0;
   }
@@ -1868,7 +1825,7 @@
   footer {
     background: var(--rich-black-fogra-29);
     color: var(--white);
-    padding: 60px 0 20px;
+    padding: 50px 0 20px;
   }
 
   footer h5 {
@@ -1897,5 +1854,40 @@
 
   .social-links a {
     font-size: 20px;
+  }
+
+  /* CONTACT FORM */
+  .contact-form {
+    max-width: 600px;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .contact-form .form-group {
+    width: 100%;
+  }
+
+  .contact-form input,
+  .contact-form textarea {
+    width: 100%;
+    padding: 14px 18px;
+    font-size: 1.6rem;
+    border: 1px solid var(--gainsboro);
+    border-radius: 6px;
+    font-family: var(--ff-roboto);
+    color: var(--rich-black-fogra-29);
+    background-color: var(--white);
+  }
+
+  .contact-form input:focus,
+  .contact-form textarea:focus {
+    border-color: var(--bittersweet);
+    outline: none;
+  }
+
+  .contact-form textarea {
+    resize: vertical;
   }
 }

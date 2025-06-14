@@ -1,0 +1,167 @@
+<!-- Contact Hero -->
+<section class="contact-hero">
+    <h1>Contact Us</h1>
+    <p>We'd love to hear from you</p>
+</section>
+
+<!-- Contact Information -->
+<section class="contact-info">
+    <div class="info-grid">
+        <div class="info-item">
+            <i class="fas fa-map-marker-alt"></i>
+            <h3>Address</h3>
+            <p>123 Fashion Street</p>
+            <p>Egypt, cairo</p>
+        </div>
+        <div class="info-item">
+            <i class="fas fa-phone"></i>
+            <h3>Phone</h3>
+            <p>+1 (555) 123-4567</p>
+        </div>
+        <div class="info-item">
+            <i class="fas fa-envelope"></i>
+            <h3>Email</h3>
+            <p>SpicyShop@gmail.com</p>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Form -->
+<section class="contact-form">
+    <h2>Send us a Message</h2>
+    <div id="form-message" class="form-message" style="display: none;"></div>
+    <form id="contact-form" action="/contact" method="POST">
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+            <label for="subject">Subject</label>
+            <input type="text" id="subject" name="subject" required>
+        </div>
+        <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="5" required></textarea>
+        </div>
+        <button type="submit" class="submit-button">Send Message</button>
+    </form>
+</section>
+
+<!-- Map Section -->
+<section class="map-section">
+    <h2>Find Us</h2>
+    <div class="map-container">
+        <!-- Add your Google Maps embed code here -->
+        <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d193595.15830869428!2d-74.11976397304903!3d40.69766374874431!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2s!4v1645564750981!5m2!1sen!2s" 
+            width="100%" 
+            height="450" 
+            style="border:0;" 
+            allowfullscreen="" 
+            loading="lazy">
+        </iframe>
+    </div>
+</section>
+
+<style>
+.form-message {
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.form-message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.form-message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.submit-button {
+    background: var(--bittersweet);
+    color: var(--white);
+    padding: 14px 30px;
+    border: none;
+    border-radius: 4px;
+    font-size: var(--fs-5);
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+    background: var(--salmon);
+}
+
+.submit-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+</style>
+
+<script>
+document.getElementById('contact-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const form = this;
+    const submitButton = form.querySelector('button[type="submit"]');
+    const messageDiv = document.getElementById('form-message');
+    
+    // Disable submit button and show loading state
+    submitButton.disabled = true;
+    submitButton.textContent = 'Sending...';
+    
+    try {
+        const formData = new FormData(form);
+        const response = await fetch('/contact', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                name: formData.get('name'),
+                email: formData.get('email'),
+                subject: formData.get('subject'),
+                message: formData.get('message')
+            })
+        });
+        
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        
+        const data = await response.json();
+        
+        // Show success/error message
+        messageDiv.textContent = data.message;
+        messageDiv.className = 'form-message ' + (data.success ? 'success' : 'error');
+        messageDiv.style.display = 'block';
+        
+        if (data.success) {
+            // Clear form on success
+            form.reset();
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        messageDiv.textContent = 'An error occurred. Please try again later.';
+        messageDiv.className = 'form-message error';
+        messageDiv.style.display = 'block';
+    } finally {
+        // Re-enable submit button
+        submitButton.disabled = false;
+        submitButton.textContent = 'Send Message';
+    }
+});
+</script>
+

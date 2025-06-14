@@ -37,7 +37,7 @@ const staticProducts = [
     },
     {
         _id: '4',
-        name: 'Adidas Ultra Boost Red',
+        name: 'Black Hoodie',
         price: 130.00,
         image: '/images/red.png',
         category: 'drop 2',
@@ -48,17 +48,17 @@ const staticProducts = [
     },
     {
         _id: '5',
-        name: 'Adidas Ultra Boost Black',
+        name: 'White Hoodie',
         price: 130.00,
         image: '/images/R.jpeg',
         category: 'drop 2',
-        brand:'Spicy',
+        brand: 'Spicy',
         sizes: ['S', 'M', 'L', 'XL'],
         stock: 15
     },
     {
         _id: '6',
-        name: 'Adidas Ultra Boost White',
+        name: 'Blue Hoodie',
         price: 130.00,
         image: '/images/white.png',
         category: 'drop 2',
@@ -69,7 +69,7 @@ const staticProducts = [
     },
     {
         _id: '7',
-        name: 'Adidas Ultra Boost Pink',
+        name: 'Pink Hoodie',
         price: 130.00,
         image: '/images/pink.png',
         category: 'drop 2',
@@ -79,7 +79,7 @@ const staticProducts = [
     },
     {
         _id: '8',
-        name: 'Adidas Ultra Boost Blue',
+        name: 'Purple Hoodie',
         price: 130.00,
         image: '/images/Screenshot 2025-05-02 165834.png',
         category: 'drop 2',
@@ -90,14 +90,17 @@ const staticProducts = [
     },
     {
         _id: '9',
-        name: 'special Hoodie',
+        name: 'Special Hoodie',
         price: 130.00,
         image: '/images/Screenshot 2025-05-02 165916.png',
         category: 'drop 3',
         brand: 'drop3',
         sizes: ['S', 'M', 'L', 'XL'],
         stock: 15
-    }
+    },
+    
+   
+   
 ];
 
 // Shop page
@@ -113,7 +116,7 @@ router.get('/', async (req, res) => {
             products = staticProducts;
         }
 
-        res.render('shop', {
+        res.render('pages/shop', {
             title: 'Shop',
             products: products,
             user: req.user || null,
@@ -122,7 +125,7 @@ router.get('/', async (req, res) => {
         });
     } catch (error) {
         console.error('Error in shop route:', error);
-        res.render('shop', {
+        res.render('pages/shop', {
             title: 'Shop',
             products: staticProducts,
             user: req.user || null,
@@ -143,14 +146,14 @@ router.get('/product/:id', async (req, res) => {
             product = staticProducts.find(p => p._id === req.params.id);
         }
 
-        res.render('product-details', {
+        res.render('pages/product-details', {
             title: product ? product.name : 'Product Details',
             product: product,
             user: req.user || null
         });
     } catch (error) {
         console.error('Error in product details route:', error);
-        res.render('product-details', {
+        res.render('pages/product-details', {
             title: 'Product Details',
             product: null,
             user: req.user || null

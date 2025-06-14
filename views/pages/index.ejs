@@ -1,0 +1,463 @@
+<main>
+  <article>
+    <!-- Hero Section -->
+    <section class="section hero" style="background-image: url('/images/h2.png')">
+      <div class="container">
+        <h2 class="h1 hero-title">
+          New Collection<strong></strong>
+        </h2>
+        <a href="/shop" class="btn btn-primary">
+          <span>Shop Now</span>
+          <ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>
+        </a>
+      </div>
+    </section>
+
+    <!-- Product Section -->
+    <section class="section product">
+      <div class="container">
+        <h2 class="h2 section-title">Bestseller's items</h2>
+
+        <ul class="product-list">
+          <% products.forEach(product => { %>
+            <li class="product-item" 
+                data-id="<%= product._id %>" 
+                data-name="<%= product.name %>" 
+                data-price="<%= product.price %>" 
+                data-brand="<%= product.brand %>" 
+                data-category="<%= product.category %>">
+            <div class="product-card" tabindex="0">
+                <figure class="card-banner">
+                  <img src="<%= product.image %>" width="312" height="350" loading="lazy"
+                    alt="<%= product.name %>" class="image-contain">
+            
+                  <% if (product.isNew) { %>
+                    <div class="card-badge">New</div>
+                  <% } %>
+            
+                <ul class="card-action-list">
+                  <li class="card-action-item">
+                    <button class="card-action-btn" data-cart aria-labelledby="card-label-1">
+                      <ion-icon name="cart-outline"></ion-icon>
+                    </button>
+                    <div class="card-action-tooltip" id="card-label-1">Add to Cart</div>
+                  </li>
+                </ul>
+              </figure>
+            
+              <div class="card-content">
+                <div class="card-cat">
+                  <a href="#" class="card-cat-link">Men</a> /
+                  <a href="#" class="card-cat-link">Women</a>
+                </div>
+            
+                <h3 class="h3 card-title">
+                    <a href="#" class="product-link" 
+                       data-id="<%= product._id %>" 
+                       data-name="<%= product.name %>" 
+                       data-price="<%= product.price %>" 
+                       data-brand="<%= product.brand %>" 
+                       data-category="<%= product.category %>"
+                       onclick="showSizeModal(this)">
+                        <%= product.name %>
+                    </a>
+                </h3>
+            
+                  <data class="card-price" value="<%= product.price %>">$<%= product.price.toFixed(2) %></data>
+                </div>
+              </div>
+            </li>
+          <% }); %>
+        </ul>
+      </div>
+    </section>
+  </article>
+</main>
+
+<section class="section special">
+  <div class="container">
+
+    <div class="special-banner" style="background-image: url('images/special-banner.jpg')">
+      <h2 class="h3 banner-title">New Trend Edition</h2>
+
+      <a href="/shop" class="btn btn-link">
+        <span>Explore All</span>
+
+        <ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>
+      </a>
+    </div>
+
+    <div class="special-product">
+      <h2 class="h2 section-title">
+        <span class="text">Our Special</span>
+        <span class="line"></span>
+      </h2>
+
+      <ul class="has-scrollbar">
+        <% products.slice(0, 6).forEach(product => { %>
+          <li class="product-item" 
+              data-id="<%= product._id %>" 
+              data-name="<%= product.name %>" 
+              data-price="<%= product.price %>" 
+              data-brand="<%= product.brand %>" 
+              data-category="<%= product.category %>">
+            <div class="product-card" tabindex="0">
+              <figure class="card-banner">
+                <img src="<%= product.image %>" width="312" height="350" loading="lazy"
+                  alt="<%= product.name %>" class="image-contain">
+            
+                <% if (product.isNew) { %>
+                <div class="card-badge">New</div>
+                <% } %>
+            
+                <ul class="card-action-list">
+                  <li class="card-action-item">
+                    <button class="card-action-btn" data-cart aria-labelledby="card-label-1">
+                      <ion-icon name="cart-outline"></ion-icon>
+                    </button>
+                    <div class="card-action-tooltip" id="card-label-1">Add to Cart</div>
+                  </li>
+                </ul>
+              </figure>
+            
+              <div class="card-content">
+                <div class="card-cat">
+                  <a href="#" class="card-cat-link">Men</a> /
+                  <a href="#" class="card-cat-link">Women</a>
+                </div>
+            
+                <h3 class="h3 card-title">
+                  <a href="#" class="product-link" 
+                     data-id="<%= product._id %>" 
+                     data-name="<%= product.name %>" 
+                     data-price="<%= product.price %>" 
+                     data-brand="<%= product.brand %>" 
+                     data-category="<%= product.category %>"
+                     onclick="showSizeModal(this)">
+                      <%= product.name %>
+                  </a>
+                </h3>
+            
+                <data class="card-price" value="<%= product.price %>">$<%= product.price.toFixed(2) %></data>
+              </div>
+            </div>
+          </li>
+        <% }); %>
+        </ul>
+    </div>
+        </div>
+        </section>
+
+<!-- Size Selection Modal -->
+<div class="modal hidden" id="sizeModal">
+  <div class="modal-content">
+        <span class="close-modal" id="closeModal">&times;</span>
+        <img src="" alt="Product" class="modal-img" id="modalImg">
+    <h3 id="modalName"></h3>
+        <div class="size-options">
+            <button class="size-btn">Small</button>
+            <button class="size-btn">Medium</button>
+            <button class="size-btn">Large</button>
+            <button class="size-btn">XLarge</button>
+    </div>
+        <button class="btn btn-primary" id="confirmAdd">Add to Cart</button>
+  </div>
+</div>
+
+<!-- Service Section -->
+  <section class="section service">
+    <div class="container">
+      <ul class="service-list">
+        <li class="service-item">
+          <div class="service-card">
+            <div class="card-icon">
+            <ion-icon name="car-outline" class="service-icon"></ion-icon>
+            </div>
+          <div class="service-content">
+            <h3 class="h4 card-title">Free Shipping</h3>
+              <p class="card-text">
+                All orders over <span>$150</span>
+              </p>
+            </div>
+          </div>
+        </li>
+        <li class="service-item">
+          <div class="service-card">
+            <div class="card-icon">
+            <ion-icon name="shield-checkmark-outline" class="service-icon"></ion-icon>
+            </div>
+          <div class="service-content">
+            <h3 class="h4 card-title">Secure Payment</h3>
+              <p class="card-text">
+                100% secure payment
+              </p>
+            </div>
+          </div>
+        </li>
+        <li class="service-item">
+          <div class="service-card">
+            <div class="card-icon">
+            <ion-icon name="refresh-outline" class="service-icon"></ion-icon>
+            </div>
+          <div class="service-content">
+              <h3 class="h4 card-title">Free Returns</h3>
+              <p class="card-text">
+                Money back in 30 days
+              </p>
+            </div>
+          </div>
+        </li>
+        <li class="service-item">
+          <div class="service-card">
+            <div class="card-icon">
+            <ion-icon name="headset-outline" class="service-icon"></ion-icon>
+            </div>
+          <div class="service-content">
+              <h3 class="h4 card-title">24/7 Support</h3>
+              <p class="card-text">
+                Get Quick Support
+              </p>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+
+
+  <!-- 
+    - #GO TO TOP
+  -->
+
+  <a href="#top" class="go-top-btn" data-go-top>
+    <ion-icon name="arrow-up-outline"></ion-icon>
+  </a>
+
+  <button class="go-top-btn" data-go-top>
+    <ion-icon name="arrow-up-outline"></ion-icon>
+  </button>
+
+  <!-- 
+    - custom js link
+  -->
+  <script src="/js/script.js"></script>
+
+  <!-- 
+    - ionicon link
+  -->
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+  <script>
+    // Navbar functionality
+    const header = document.querySelector("[data-header]");
+    const navOpenBtn = document.querySelector("[data-nav-open-btn]");
+    const navCloseBtn = document.querySelector("[data-nav-close-btn]");
+    const overlay = document.querySelector("[data-overlay]");
+
+    const toggleNavbar = function () {
+        header.classList.toggle("active");
+        overlay.classList.toggle("active");
+    }
+
+    navOpenBtn.addEventListener("click", toggleNavbar);
+    navCloseBtn.addEventListener("click", toggleNavbar);
+    overlay.addEventListener("click", toggleNavbar);
+
+    // Add active class to current page link
+    const currentPage = window.location.pathname;
+    const navLinks = document.querySelectorAll('.navbar-link');
+    navLinks.forEach(link => {
+        if (link.getAttribute('href') === currentPage) {
+            link.classList.add('active');
+        }
+    });
+
+    // Size Modal functionality
+    const sizeModal = document.getElementById('sizeModal');
+    const closeModal = document.getElementById('closeModal');
+    const modalImg = document.getElementById('modalImg');
+    const modalName = document.getElementById('modalName');
+    const confirmAdd = document.getElementById('confirmAdd');
+    let selectedProduct = null;
+    let selectedSize = null;
+
+    // Close modal when clicking the close button or outside the modal
+    closeModal.addEventListener('click', () => {
+        sizeModal.classList.add('hidden');
+    });
+
+    window.addEventListener('click', (e) => {
+        if (e.target === sizeModal) {
+            sizeModal.classList.add('hidden');
+        }
+    });
+
+    // Size selection
+    document.querySelectorAll('.size-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
+            this.classList.add('selected');
+            selectedSize = this.textContent;
+        });
+    });
+
+    // Add to cart functionality
+    document.querySelectorAll('[data-cart]').forEach(button => {
+        button.addEventListener('click', async function(e) {
+            e.preventDefault();
+            const productItem = this.closest('.product-item');
+            if (!productItem) return;
+
+            const productId = productItem.dataset.id;
+            const name = productItem.dataset.name;
+            const price = productItem.dataset.price;
+            const image = productItem.querySelector('.image-contain')?.src;
+
+            selectedProduct = { id: productId, name, price: parseFloat(price), image };
+            
+            if (modalImg && modalName) {
+                modalImg.src = selectedProduct.image;
+                modalName.textContent = selectedProduct.name;
+                sizeModal.classList.remove('hidden');
+            }
+        });
+    });
+
+    // Confirm add to cart
+    confirmAdd.addEventListener('click', async function() {
+        if (!selectedSize) {
+            alert('Please select a size');
+            return;
+        }
+
+        if (!selectedProduct) {
+            alert('No product selected');
+            return;
+        }
+
+        try {
+            const response = await fetch('/cart/add', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    productId: selectedProduct.id,
+                    name: selectedProduct.name,
+                    price: selectedProduct.price,
+                    quantity: 1,
+                    size: selectedSize
+                })
+            });
+
+            const data = await response.json();
+            if (data.success) {
+                alert('Product added to cart!');
+                sizeModal.classList.add('hidden');
+                selectedSize = null;
+                document.querySelectorAll('.size-btn').forEach(btn => btn.classList.remove('selected'));
+            } else {
+                alert(data.error || 'Failed to add product to cart');
+            }
+        } catch (error) {
+            alert('Failed to add product to cart. Please try again.');
+        }
+    });
+
+    function showSizeModal(element) {
+        const productId = element.dataset.id;
+        const productName = element.dataset.name;
+        const productPrice = element.dataset.price;
+        const productBrand = element.dataset.brand;
+        const productCategory = element.dataset.category;
+
+        // Update modal content
+        document.getElementById('modalName').textContent = productName;
+        document.getElementById('modalPrice').textContent = `$${productPrice}`;
+        document.getElementById('modalBrand').textContent = productBrand;
+        document.getElementById('modalCategory').textContent = productCategory;
+
+        // Reset size selection
+        document.querySelectorAll('.size-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById('confirmAdd').disabled = true;
+
+        // Show modal
+        document.getElementById('sizeModal').classList.remove('hidden');
+
+        // Store product data for cart
+        window.selectedProduct = {
+            id: productId,
+            name: productName,
+            price: productPrice,
+            brand: productBrand,
+            category: productCategory
+        };
+    }
+  </script>
+
+  <style>
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+    }
+
+    .modal.hidden {
+        display: none;
+    }
+
+    .modal-content {
+        position: relative;
+        background-color: #fff;
+        margin: 15% auto;
+        padding: 20px;
+        width: 80%;
+        max-width: 500px;
+        border-radius: 5px;
+        text-align: center;
+    }
+
+    .close-modal {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    .modal-img {
+        max-width: 200px;
+        margin-bottom: 20px;
+    }
+
+    .size-options {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin: 20px 0;
+    }
+
+    .size-btn {
+        padding: 10px 20px;
+        border: 1px solid #ddd;
+        background: none;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    .size-btn.selected {
+        background-color: #000;
+        color: #fff;
+    }
+
+    #confirmAdd {
+        margin-top: 20px;
+    }
+  </style>
+
+

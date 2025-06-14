@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error - <%= message %></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .error-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f8f9fa;
+        }
+        .error-card {
+            max-width: 500px;
+            width: 90%;
+            padding: 2rem;
+            text-align: center;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        .error-icon {
+            font-size: 4rem;
+            color: #dc3545;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Error Header -->
+    <section class="auth-header">
+        <div class="auth-header-content">
+            <h1>Error</h1>
+            <p><%= message %></p>
+        </div>
+    </section>
+
+    <!-- Error Content -->
+    <main>
+        <section class="section auth">
+            <div class="container">
+                <div class="auth-content" style="max-width: 800px; margin: 0 auto;">
+                    <div class="error-message" style="background: #fff3f3; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #ffcdd2;">
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+                            <ion-icon name="alert-circle-outline" style="font-size: 24px; color: #d32f2f;"></ion-icon>
+                            <h2 style="color: #d32f2f; margin: 0;">Error Details</h2>
+                        </div>
+                        <% if (typeof error !== 'undefined' && error && error.stack) { %>
+                            <pre style="background: #fff; padding: 15px; border-radius: 4px; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word; font-family: monospace; font-size: 14px; line-height: 1.5; color: #333; border: 1px solid #ddd;"><%= error.stack %></pre>
+                        <% } else { %>
+                            <p style="color: #333; margin: 0;"><%= message %></p>
+                        <% } %>
+                    </div>
+                    <a href="/" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 8px;">
+                        <span>Return to Home</span>
+                        <ion-icon name="arrow-forward-outline"></ion-icon>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Add Ionicons -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</body>
+</html> 

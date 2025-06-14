@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Settings</title>
+    <link rel="stylesheet" href="/css/admin-dashboard.css?v=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+</head>
+<body>
+    <div class="admin-dashboard">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Admin Panel</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="/admin/dashboard" class="nav-item">
+                    <ion-icon name="home-outline"></ion-icon>
+                    Dashboard
+                </a>
+                <a href="/admin/products" class="nav-item">
+                    <ion-icon name="cube-outline"></ion-icon>
+                    Products
+                </a>
+                <a href="/admin/orders" class="nav-item">
+                    <ion-icon name="cart-outline"></ion-icon>
+                    Orders
+                </a>
+                <a href="/admin/users" class="nav-item">
+                    <ion-icon name="people-outline"></ion-icon>
+                    Users
+                </a>
+                <a href="/admin/settings" class="nav-item active">
+                    <ion-icon name="settings-outline"></ion-icon>
+                    Settings
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="content-header">
+                <div class="header-left">
+                    <h1>Site Settings</h1>
+                </div>
+            </header>
+
+            <div class="settings-container">
+                <form id="settingsForm">
+                    <div class="settings-section">
+                        <h2>General Settings</h2>
+                        <div class="form-group">
+                            <label for="siteName">Site Name</label>
+                            <input type="text" id="siteName" name="siteName" value="<%= settings.siteName %>" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="siteEmail">Contact Email</label>
+                            <input type="email" id="siteEmail" name="siteEmail" value="<%= settings.siteEmail %>" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="siteDescription">Site Description</label>
+                            <textarea id="siteDescription" name="siteDescription" rows="3" required><%= settings.siteDescription %></textarea>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h2>Store Settings</h2>
+                        <div class="form-group">
+                            <label for="currency">Currency</label>
+                            <select id="currency" name="currency" required>
+                                <option value="USD" <%= settings.currency === 'USD' ? 'selected' : '' %>>USD ($)</option>
+                                <option value="EUR" <%= settings.currency === 'EUR' ? 'selected' : '' %>>EUR (€)</option>
+                                <option value="GBP" <%= settings.currency === 'GBP' ? 'selected' : '' %>>GBP (£)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="taxRate">Tax Rate (%)</label>
+                            <input type="number" id="taxRate" name="taxRate" value="<%= settings.taxRate %>" min="0" max="100" step="0.1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="shippingCost">Default Shipping Cost</label>
+                            <input type="number" id="shippingCost" name="shippingCost" value="<%= settings.shippingCost %>" min="0" step="0.01" required>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h2>Social Media</h2>
+                        <div class="form-group">
+                            <label for="facebookUrl">Facebook URL</label>
+                            <input type="url" id="facebookUrl" name="socialMedia.facebook" value="<%= settings.socialMedia?.facebook || '' %>">
+                        </div>
+                        <div class="form-group">
+                            <label for="instagramUrl">Instagram URL</label>
+                            <input type="url" id="instagramUrl" name="socialMedia.instagram" value="<%= settings.socialMedia?.instagram || '' %>">
+                        </div>
+                        <div class="form-group">
+                            <label for="twitterUrl">Twitter URL</label>
+                            <input type="url" id="twitterUrl" name="socialMedia.twitter" value="<%= settings.socialMedia?.twitter || '' %>">
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h2>Appearance</h2>
+                        <div class="form-group">
+                            <label for="primaryColor">Primary Color</label>
+                            <input type="color" id="primaryColor" name="theme.primaryColor" value="<%= settings.theme?.primaryColor || '#ff4d4d' %>">
+                        </div>
+                        <div class="form-group">
+                            <label for="secondaryColor">Secondary Color</label>
+                            <input type="color" id="secondaryColor" name="theme.secondaryColor" value="<%= settings.theme?.secondaryColor || '#333333' %>">
+                        </div>
+                        <div class="form-group">
+                            <label for="logoUrl">Logo URL</label>
+                            <input type="text" id="logoUrl" value="<%= settings.logoUrl %>" required>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Save Settings</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script src="/js/admin-settings.js"></script>
+</body>
+</html> 

@@ -307,7 +307,7 @@ function checkAuthState() {
   if (currentUser) {
     if (currentUser.isAdmin) {
       authLink.innerHTML = `
-        <a href="admin-dashboard.html" class="nav-action-btn">
+        <a href="/admin/dashboard" class="nav-action-btn">
           <ion-icon name="person-outline"></ion-icon>
           <span class="nav-action-text">Admin Dashboard</span>
         </a>
@@ -361,22 +361,148 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-    // navbarr
 
-    const toggleNavbar = function () {
-        header.classList.toggle("active");
-        overlay.classList.toggle("active");
+const toggleNavbar = function () {
+    header.classList.toggle("active");
+    overlay.classList.toggle("active");
+}
+
+navOpenBtn.addEventListener("click", toggleNavbar);
+navCloseBtn.addEventListener("click", toggleNavbar);
+overlay.addEventListener("click", toggleNavbar);
+
+// Add active class to current page link
+const currentPage = window.location.pathname;
+const navLinks = document.querySelectorAll('.navbar-link');
+navLinks.forEach(link => {
+    if (link.getAttribute('href') === currentPage) {
+        link.classList.add('active');
     }
+});
 
-    navOpenBtn.addEventListener("click", toggleNavbar);
-    navCloseBtn.addEventListener("click", toggleNavbar);
-    overlay.addEventListener("click", toggleNavbar);
+// Size Modal functionality
+const sizeModal = document.getElementById('sizeModal');
+const closeModal = document.getElementById('closeModal');
+const modalImg = document.getElementById('modalImg');
+const modalName = document.getElementById('modalName');
+const confirmAdd = document.getElementById('confirmAdd');
+let selectedProduct = null;
+let selectedSize = null;
 
-    // Add active class to current page link
-    const currentPage = window.location.pathname;
-    const navLinks = document.querySelectorAll('.navbar-link');
-    navLinks.forEach(link => {
-        if (link.getAttribute('href') === currentPage) {
-            link.classList.add('active');
+// Close modal when clicking the close button or outside the modal
+closeModal.addEventListener('click', () => {
+    sizeModal.classList.add('hidden');
+});
+
+window.addEventListener('click', (e) => {
+    if (e.target === sizeModal) {
+        sizeModal.classList.add('hidden');
+    }
+});
+
+// Size selection
+document.querySelectorAll('.size-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
+        this.classList.add('selected');
+        selectedSize = this.textContent;
+        console.log('Size selected:', selectedSize);
+    });
+});
+
+// Add to cart functionality
+document.querySelectorAll('[data-cart]').forEach(button => {
+    button.addEventListener('click', async function(e) {
+        e.preventDefault();
+        console.log('Add to cart button clicked');
+        
+        const productItem = this.closest('.product-item');
+        if (!productItem) {
+            console.error('Product item not found');
+            return;
+        }
+
+        const productId = productItem.dataset.id;
+        const name = productItem.dataset.name;
+        const price = productItem.dataset.price;
+        const image = productItem.querySelector('.image-contain')?.src;
+
+        if (!productId || !name || !price) {
+            console.error('Missing product data:', { productId, name, price });
+            return;
+        }
+
+        selectedProduct = {
+            id: productId,
+            name: name,
+            price: parseFloat(price),
+            image: image
+        };
+        console.log('Selected product:', selectedProduct);
+
+        // Show size selection modal
+        if (modalImg && modalName) {
+            modalImg.src = selectedProduct.image;
+            modalName.textContent = selectedProduct.name;
+            sizeModal.classList.remove('hidden');
+        } else {
+            console.error('Modal elements not found');
         }
     });
+});
+
+// Confirm add to cart
+if (confirmAdd) {
+    confirmAdd.addEventListener('click', async function() {
+        console.log('Confirm add clicked');
+        console.log('Selected size:', selectedSize);
+        console.log('Selected product:', selectedProduct);
+
+        if (!selectedSize) {
+            alert('Please select a size');
+            return;
+        }
+
+        if (!selectedProduct) {
+            alert('No product selected');
+            return;
+        }
+
+        try {
+            const requestBody = {
+                productId: selectedProduct.id,
+                name: selectedProduct.name,
+                price: selectedProduct.price,
+                quantity: 1,
+                size: selectedSize
+            };
+            console.log('Sending request with body:', requestBody);
+
+            const response = await fetch('/cart/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestBody)
+            });
+
+            console.log('Response status:', response.status);
+            const data = await response.json();
+            console.log('Response data:', data);
+
+            if (data.success) {
+                alert('Product added to cart!');
+                sizeModal.classList.add('hidden');
+                selectedSize = null;
+                document.querySelectorAll('.size-btn').forEach(btn => btn.classList.remove('selected'));
+            } else {
+                alert(data.error || 'Failed to add product to cart');
+            }
+        } catch (error) {
+            console.error('Error adding to cart:', error);
+            alert('Failed to add product to cart. Please try again.');
+        }
+    });
+} else {
+    console.error('Confirm add button not found');
+}

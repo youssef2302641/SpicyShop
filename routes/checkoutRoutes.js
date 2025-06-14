@@ -6,7 +6,7 @@ const Order = require('../models/Order');
 
 // Get checkout page
 router.get('/', isAuthenticated, (req, res) => {
-    res.render('checkout', {
+    res.render('pages/checkout', {
         title: 'Checkout',
         user: req.user || null
     });
@@ -113,7 +113,7 @@ router.post('/process', isAuthenticated, async (req, res) => {
 
 // Get checkout success page
 router.get('/success', isAuthenticated, (req, res) => {
-    res.render('checkout-success', {
+    res.render('pages/checkout-success', {
         title: 'Order Confirmed',
         user: req.user || null
     });
@@ -121,7 +121,7 @@ router.get('/success', isAuthenticated, (req, res) => {
 
 // Checkout page
 router.get('/checkout', (req, res) => {
-    res.render('checkout', {
+    res.render('pages/checkout', {
         title: 'Checkout',
         user: req.user
     });
@@ -135,7 +135,7 @@ router.post('/payment', (req, res) => {
 
 // Order confirmation
 router.get('/checkout-success', (req, res) => {
-    res.render('checkout-success', {
+    res.render('pages/checkout-success', {
         title: 'Order Confirmation',
         user: req.user
     });

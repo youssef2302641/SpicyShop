@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Spicy Shop</title>
+    
+    <!-- Admin Dashboard CSS -->
+    <link rel="stylesheet" href="/css/admin-dashboard.css">
+    
+    <!-- Ionicons -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+<body>
+    <div class="admin-dashboard">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Admin Panel</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="/admin/dashboard" class="nav-item active">
+                    <ion-icon name="home-outline"></ion-icon>
+                    Dashboard
+                </a>
+                <a href="/admin/products" class="nav-item">
+                    <ion-icon name="cube-outline"></ion-icon>
+                    Products
+                </a>
+                <a href="/admin/orders" class="nav-item">
+                    <ion-icon name="cart-outline"></ion-icon>
+                    Orders
+                </a>
+                <a href="/admin/users" class="nav-item">
+                    <ion-icon name="people-outline"></ion-icon>
+                    Users
+                </a>
+                <a href="/admin/settings" class="nav-item">
+                    <ion-icon name="settings-outline"></ion-icon>
+                    Settings
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="content-header">
+                <div class="header-left">
+                    <h1>Dashboard Overview</h1>
+                </div>
+                <div class="header-right">
+                    <a href="/auth/logout" class="btn btn-danger" id="logoutBtn">
+                        <ion-icon name="log-out-outline"></ion-icon>
+                        Logout
+                    </a>
+                </div>
+            </header>
+
+            <div class="dashboard-stats">
+                <div class="stat-card">
+                    <ion-icon name="cube-outline"></ion-icon>
+                    <div class="stat-info">
+                        <h3>Total Products</h3>
+                        <p id="totalProducts">0</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <ion-icon name="cart-outline"></ion-icon>
+                    <div class="stat-info">
+                        <h3>Total Orders</h3>
+                        <p id="totalOrders">0</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <ion-icon name="people-outline"></ion-icon>
+                    <div class="stat-info">
+                        <h3>Total Users</h3>
+                        <p id="totalUsers">0</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <ion-icon name="cash-outline"></ion-icon>
+                    <div class="stat-info">
+                        <h3>Total Revenue</h3>
+                        <p id="totalRevenue">$0.00</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-charts">
+                <div class="chart-container">
+                    <h2>Recent Orders</h2>
+                    <div id="ordersChart"></div>
+                </div>
+                <div class="chart-container">
+                    <h2>Top Products</h2>
+                    <div id="productsChart"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/js/admin-dashboard.js"></script>
+</body>
+</html> 

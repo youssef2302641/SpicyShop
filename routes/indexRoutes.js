@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Product = require('../models/Product');
+const Contact = require('../models/Contact');
 
 // Static products for the homepage
 const homepageProducts = [
@@ -71,7 +72,7 @@ router.get('/', async (req, res) => {
         // Try to use Product model if available
         let products;
         try {
-            products = await Product.find().limit(6);
+            products = await Product.find().limit(10);
             // If no products in database, use static products
             if (!products || products.length === 0) {
                 products = homepageProducts;
@@ -81,7 +82,7 @@ router.get('/', async (req, res) => {
             products = homepageProducts;
         }
 
-        res.render('index', {
+        res.render('pages/index', {
             title: 'Home',
             user: req.user || null,
             products: products,
@@ -91,7 +92,7 @@ router.get('/', async (req, res) => {
     } catch (error) {
         console.error('Error in home route:', error);
         // Fallback to static products
-        res.render('index', {
+        res.render('pages/index', {
             title: 'Home',
             user: req.user || null,
             products: homepageProducts,
@@ -103,7 +104,7 @@ router.get('/', async (req, res) => {
 
 // About page
 router.get('/about', (req, res) => {
-    res.render('about', {
+    res.render('pages/about', {
         title: 'About Us',
         user: req.user || null
     });
@@ -111,10 +112,41 @@ router.get('/about', (req, res) => {
 
 // Contact page
 router.get('/contact', (req, res) => {
-    res.render('contact', {
+    res.render('pages/contact', {
         title: 'Contact Us',
         user: req.user || null
     });
+});
+
+// Handle contact form submission
+router.post('/contact', async (req, res) => {
+    try {
+        const { name, email, subject, message } = req.body;
+        
+        // Create new contact message
+        const contactMessage = new Contact({
+            name,
+            email,
+            subject,
+            message,
+            status: 'unread'
+        });
+
+        // Save the message
+        await contactMessage.save();
+
+        // Send success response
+        res.status(200).json({
+            success: true,
+            message: 'Your message has been sent successfully!'
+        });
+    } catch (error) {
+        console.error('Error in contact form submission:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to send message. Please try again later.'
+        });
+    }
 });
 
 module.exports = router; 

@@ -2,10 +2,10 @@
   "name": "spicy-shop",
   "version": "1.0.0",
   "description": "Spicy Shop E-commerce Website",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -24,6 +24,8 @@
     "multer": "^2.0.1",
     "nodemailer": "^7.0.3",
     "passport": "^0.7.0",
+    "passport-facebook": "^3.0.0",
+    "passport-google-oauth20": "^2.0.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
     "stripe": "^18.2.1"

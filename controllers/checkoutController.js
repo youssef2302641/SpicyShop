@@ -5,7 +5,7 @@ const { sendOrderConfirmation } = require('../utils/email');
 // Get checkout page
 exports.getCheckout = async (req, res) => {
     try {
-        res.render('checkout', {
+        res.render('pages/checkout', {
             title: 'Checkout',
             user: req.user,
             stripePublicKey: process.env.STRIPE_PUBLIC_KEY || 'pk_test_dummy_key'
@@ -59,7 +59,7 @@ exports.processCheckout = async (req, res) => {
 
 // Get checkout success page
 exports.getCheckoutSuccess = (req, res) => {
-    res.render('checkout-success', {
+    res.render('pages/checkout-success', {
         title: 'Order Confirmation',
         user: req.user
     });
