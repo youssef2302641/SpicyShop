@@ -15,6 +15,8 @@ The `spicy-shop-api.postman_collection.json` file contains a complete collection
 
 ### Environment Setup
 
+Delete file
+
 The collection uses a variable called `baseUrl` which is set to `http://localhost:3000` by default. To set up your environment:
 
 1. Click on "Environments" in the sidebar
