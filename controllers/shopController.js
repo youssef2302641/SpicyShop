@@ -3,18 +3,20 @@ const Product = require('../models/Product');
 const shopController = {
     // Home page
     getHome: async (req, res) => {
-        try {
-            const featuredProducts = await Product.find({ featured: true }).limit(4);
-            res.render('pages/index', { 
-                title: 'Spicy - Home',
-                featuredProducts 
-            });
-        } catch (error) {
-            res.status(500).render('error', { 
-                message: 'Error loading home page' 
-            });
-        }
-    },
+       try {
+           const featuredProducts = await Product.find()
+               .sort('-createdAt')  
+               .limit(9);          
+           res.render('pages/index', { 
+               title: 'Spicy - Home',
+               featuredProducts 
+           });
+       } catch (error) {
+           res.status(500).render('error', { 
+               message: 'Error loading home page' 
+           });
+       }
+   },
 
     // Shop page
     getShop: async (req, res) => {
