@@ -7,7 +7,7 @@ exports.getHomePage = async (req, res) => {
     try {
         // Get featured products
         const featuredProducts = await Product.find({ featured: false })
-            .limit(8)
+            .limit(9)
             .sort('-createdAt');
 
         // Get categories
@@ -15,14 +15,12 @@ exports.getHomePage = async (req, res) => {
             .sort('order')
             .limit(6);
 
-        // Get site settings
-        const settings = await Settings.findOne();
+       
 
         res.render('index', {
             title: 'Spicy Shop - Home',
             featuredProducts,
-            categories,
-            settings
+            
         });
     } catch (error) {
         console.error('Home page error:', error);
@@ -90,9 +88,3 @@ exports.submitContactForm = async (req, res) => {
         res.redirect('/contact');
     }
 };
-
-
-
-
-
-
