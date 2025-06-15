@@ -6,7 +6,7 @@ const Contact = require('../models/Contact');
 exports.getHomePage = async (req, res) => {
     try {
         // Get featured products
-        const featuredProducts = await Product.find({ featured: true })
+        const featuredProducts = await Product.find({ featured: false })
             .limit(8)
             .sort('-createdAt');
 
