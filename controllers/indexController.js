@@ -91,53 +91,8 @@ exports.submitContactForm = async (req, res) => {
     }
 };
 
-// Get terms and conditions page
-exports.getTermsPage = async (req, res) => {
-    try {
-        const settings = await Settings.findOne();
-        res.render('terms', {
-            title: 'Terms & Conditions - Spicy Shop',
-            settings
-        });
-    } catch (error) {
-        console.error('Terms page error:', error);
-        res.status(500).render('error', {
-            message: 'Error loading terms page',
-            error: process.env.NODE_ENV === 'development' ? error : {}
-        });
-    }
-};
 
-// Get privacy policy page
-exports.getPrivacyPage = async (req, res) => {
-    try {
-        const settings = await Settings.findOne();
-        res.render('privacy', {
-            title: 'Privacy Policy - Spicy Shop',
-            settings
-        });
-    } catch (error) {
-        console.error('Privacy page error:', error);
-        res.status(500).render('error', {
-            message: 'Error loading privacy page',
-            error: process.env.NODE_ENV === 'development' ? error : {}
-        });
-    }
-};
 
-// Get FAQ page
-exports.getFaqPage = async (req, res) => {
-    try {
-        const settings = await Settings.findOne();
-        res.render('faq', {
-            title: 'FAQ - Spicy Shop',
-            settings
-        });
-    } catch (error) {
-        console.error('FAQ page error:', error);
-        res.status(500).render('error', {
-            message: 'Error loading FAQ page',
-            error: process.env.NODE_ENV === 'development' ? error : {}
-        });
-    }
-}; 
+
+
+
