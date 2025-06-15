@@ -10,13 +10,11 @@ exports.getHomePage = async (req, res) => {
             .limit(9)
             .sort('-createdAt');
 
-        // Get categories
-        const categories = await Category.find()
-            .sort('order')
-            .limit(6);
 
-       
 
+        
+
+        
         res.render('index', {
             title: 'Spicy Shop - Home',
             featuredProducts,
