@@ -40,12 +40,6 @@ const shopController = {
         });
     },
 
-    // Contact page
-    getContact: (req, res) => {
-        res.render('pages/contact', { 
-            title: 'Spicy - Contact Us' 
-        });
-    },
 
     // Cart page
     getCart: (req, res) => {
