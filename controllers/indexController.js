@@ -1,5 +1,4 @@
 const Product = require('../models/Product');
-const Category = require('../models/Category');
 const Settings = require('../models/Settings');
 const Contact = require('../models/Contact');
 
